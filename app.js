@@ -1470,5 +1470,14 @@ if (data.active) sheetOpen = false; // resume minimized; tap the bar to reopen
 render();
 
 if ('serviceWorker' in navigator) {
+  // When a new version's service worker takes over, reload once so updates show on the first open.
+  // Data is in localStorage (and an in-progress workout is saved), so the reload loses nothing.
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || reloaded) return;
+    reloaded = true;
+    location.reload();
+  });
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch((err) => console.warn('SW registration failed', err)));
 }
