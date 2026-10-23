@@ -738,7 +738,7 @@ function renderSheet() {
   const scroll = sheet.scrollTop;
   sheet.innerHTML = `
     <div class="sheet-head">
-      <button class="icon-btn" data-act="minimize" aria-label="Minimize">⌄</button>
+      <button class="icon-btn chev" data-act="minimize" aria-label="Minimize"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
       <div class="timer mono" id="elapsed">${fmtDur((Date.now() - a.start) / 1000)}</div>
       <button class="btn good sm" data-act="finish">Finish</button>
     </div>
