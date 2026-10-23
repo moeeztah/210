@@ -48,18 +48,25 @@ button { cursor: pointer; }
 
 /* ---------- header / layout ---------- */
 .app-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) 76px;
   align-items: center;
-  gap: 10px;
-  padding: calc(var(--safe-top) + 14px) 16px 12px;
-  background: var(--bg-elevated);
+  /* Extra room above the title: iOS blurs web-app content just below the status bar. */
+  padding: calc(var(--safe-top) + 40px) 12px 12px;
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 10;
 }
-.app-header h1 { font-size: 20px; margin: 0; flex: 1; letter-spacing: -0.01em; }
+.app-header h1 { grid-column: 2; font-size: 18px; font-weight: 700; margin: 0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#backBtn { grid-column: 1; justify-self: start; }
+#headerRight { grid-column: 3; justify-self: end; }
 #backBtn { font-size: 30px; line-height: 1; padding: 0 6px 4px; }
+
+/* iOS draws some home-screen apps short of the screen bottom (system strip below the app);
+   the home indicator is then outside the page, so drop the bottom inset. Set from app.js. */
+:root.ios-short { --safe-bottom: 0px; }
 
 main {
   max-width: 640px;
@@ -215,8 +222,8 @@ button.card:active { background: var(--card-2); }
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: calc(var(--safe-top) + 10px) 14px 10px;
-  background: var(--bg-elevated);
+  padding: calc(var(--safe-top) + 36px) 14px 10px;
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
 .sheet-head .timer { flex: 1; text-align: center; font-weight: 700; font-size: 17px; }
@@ -317,11 +324,9 @@ button.card:active { background: var(--card-2); }
   display: flex;
   height: calc(var(--tabbar-h) + var(--tab-pad));
   padding-bottom: var(--tab-pad);
-  background: var(--bg-elevated);
+  background: var(--bg);
   border-top: 1px solid var(--border);
 }
-/* Paint below the bar too, so any gap iOS leaves under it matches the bar instead of showing as a strip. */
-.tabbar::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 120px; background: var(--bg-elevated); }
 .tab { flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--text-dim); font-size: 11px; font-weight: 600; }
 .tab svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .tab.on { color: var(--accent); }

@@ -1466,6 +1466,15 @@ document.addEventListener('input', (ev) => {
 document.addEventListener('focusin', (ev) => { if (ev.target.matches?.('.set-row input')) ev.target.select(); });
 
 // ---------- boot ----------
+// iOS standalone apps are sometimes laid out shorter than the screen (a black system strip
+// below). Detect it so the tab bar doesn't also reserve space for the home indicator.
+function fitViewport() {
+  const portrait = window.innerHeight > window.innerWidth;
+  const short = !!navigator.standalone && portrait && screen.height - window.innerHeight > 20;
+  document.documentElement.classList.toggle('ios-short', short);
+}
+fitViewport();
+window.addEventListener('resize', fitViewport);
 if (data.active) sheetOpen = false; // resume minimized; tap the bar to reopen
 render();
 
